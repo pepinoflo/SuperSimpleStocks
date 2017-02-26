@@ -12,7 +12,8 @@ class TestStock(unittest.TestCase):
         self.pop = Stock('pop', 8, 100)
         self.ale = Stock('ale', 23, 100)
         self.joe = Stock('joe', 13, 100)
-        
+
+    ### Tests for dividend_yield method ###
     def test_dividend_yield_raises_ValueError_when_market_price_is_zero(self):
         self.assertRaises(ValueError, self.tea.dividend_yield, 0)
 
@@ -22,6 +23,17 @@ class TestStock(unittest.TestCase):
     def test_dividend_yield_returns_expected_decimal(self):
         self.assertEqual(decimal.Decimal(0), self.tea.dividend_yield(16))
         self.assertEqual(decimal.Decimal(0.5), self.pop.dividend_yield(16))
+
+    ### Tests for pe_ratio method ###
+    def test_pe_ratio_raises_ValueError_when_market_price_is_zero(self):
+        self.assertRaises(ValueError, self.tea.pe_ratio, 0)
+
+    def test_pe_ratio_raises_ValueError_when_market_price_is_negative(self):
+        self.assertRaises(ValueError, self.tea.pe_ratio, -2)
+
+    def test_pe_ratio_returns_expected_decimal(self):
+        self.assertEqual(decimal.Decimal(0), self.tea.pe_ratio(16))
+        self.assertEqual(decimal.Decimal(32), self.pop.pe_ratio(16))
 
 class TestPreferredStock(unittest.TestCase):
     ''' Unit tests for PreferredStock class. '''

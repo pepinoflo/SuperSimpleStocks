@@ -14,6 +14,9 @@ class Stock(object):
             raise ValueError("market price value is negative or equal to 0. Found {}".format(market_price))
         return self.last_dividend / decimal.Decimal(market_price)
 
+    def pe_ratio(self, market_price):
+        pass
+
 class PreferredStock(Stock):
     ''' This class represents a preferred stock. '''
     def __init__(self, symbol, last_dividend, par_value, fixed_dividend):
