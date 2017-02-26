@@ -7,6 +7,9 @@ class Stock(object):
         self.par_value = par_value
         self.trades = []
 
+    def dividend_yield(self, market_price):
+        pass
+
 class PreferredStock(Stock):
     ''' This class represents a preferred stock. '''
     def __init__(self, symbol, last_dividend, par_value, fixed_dividend):
