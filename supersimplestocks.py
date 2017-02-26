@@ -15,7 +15,10 @@ class Stock(object):
         return self.last_dividend / decimal.Decimal(market_price)
 
     def pe_ratio(self, market_price):
-        pass
+        try:
+            return decimal.Decimal(market_price) / self.dividend_yield(market_price)
+        except ZeroDivisionError as e:
+            return 0
 
 class PreferredStock(Stock):
     ''' This class represents a preferred stock. '''
