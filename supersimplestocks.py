@@ -21,4 +21,6 @@ class PreferredStock(Stock):
         self.fixed_dividend = decimal.Decimal(fixed_dividend)
 
     def dividend_yield(self, market_price):
-        pass
+        if market_price <= 0:
+            raise ValueError("market price value is negative or equal to 0. Found {}".format(market_price))
+        return (self.fixed_dividend * self.par_value) / decimal.Decimal(market_price)
