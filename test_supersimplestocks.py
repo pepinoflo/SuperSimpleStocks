@@ -1,6 +1,7 @@
 ''' Unit tests for module supersimplestocks.py. '''
 
 import unittest
+import datetime
 import decimal
 from supersimplestocks import *
 
@@ -49,6 +50,11 @@ class TestPreferredStock(unittest.TestCase):
 
     def test_dividend_yield_returns_expected_decimal(self):
         self.assertEqual(decimal.Decimal(0.125), self.gin.dividend_yield(16))
+
+class TestTrade(unittest.TestCase):
+    ''' Unit tests for Trade class. '''
+    def test_init_raises_ValueError_when_indicator_not_valid(self):
+        self.assertRaises(ValueError, Trade, datetime.datetime(2017, 2, 26, 16, 33, 2, 392218), 4, 'GIVE', 47.37)
 
 if __name__ == '__main__':
     decimal.getcontext().prec = 8

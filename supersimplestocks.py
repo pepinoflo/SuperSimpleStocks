@@ -30,3 +30,14 @@ class PreferredStock(Stock):
         if market_price <= 0:
             raise ValueError("market price value is negative or equal to 0. Found {}".format(market_price))
         return (self.fixed_dividend * self.par_value) / decimal.Decimal(market_price)
+
+
+class Trade(object):
+    def __init__(self, timestamp, num_shares, indicator, price):
+        self.timestamp = timestamp
+        self.num_shares = num_shares
+        self.price = decimal.Decimal(price)
+        if indicator == 'SELL' or indicator == 'BUY':
+            self.indicator = indicator
+        else:
+            raise ValueError("Found: {}. Expected indicator should be SELL or BUY.".format(indicator))
