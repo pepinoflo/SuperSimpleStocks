@@ -20,6 +20,9 @@ class Stock(object):
         except ZeroDivisionError as e:
             return 0
 
+    def record_trade(self, trade):
+        self.trades.append(trade)
+
 class PreferredStock(Stock):
     ''' This class represents a preferred stock. '''
     def __init__(self, symbol, last_dividend, par_value, fixed_dividend):
@@ -30,7 +33,6 @@ class PreferredStock(Stock):
         if market_price <= 0:
             raise ValueError("market price value is negative or equal to 0. Found {}".format(market_price))
         return (self.fixed_dividend * self.par_value) / decimal.Decimal(market_price)
-
 
 class Trade(object):
     def __init__(self, timestamp, num_shares, indicator, price):
