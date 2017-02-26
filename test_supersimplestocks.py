@@ -24,9 +24,22 @@ class TestStocks(unittest.TestCase):
         self.assertEqual(decimal.Decimal(0), self.tea.dividend_yield(16))
         self.assertEqual(decimal.Decimal(0.5), self.pop.dividend_yield(16))
 
+class TestPreferredStock(unittest.TestCase):
+    ''' Unit tests for PreferredStock class. '''
+
+    def setUp(self):
+        self.gin = PreferredStock('gin', 8, 100, 0.02)
+        
+    def test_dividend_yield_raises_ValueError_when_market_price_is_zero(self):
+        self.assertRaises(ValueError, self.gin.dividend_yield, 0)
+
+    def test_dividend_yield_raises_ValueError_when_market_price_is_negative(self):
+        self.assertRaises(ValueError, self.gin.dividend_yield, -2)
+
+    def test_dividend_yield_returns_expected_decimal(self):
+        self.assertEqual(decimal.Decimal(0.125), self.gin.dividend_yield(16))
 
 if __name__ == '__main__':
     decimal.getcontext().prec = 8
     unittest.main()
-
 
