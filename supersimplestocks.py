@@ -1,4 +1,5 @@
 import decimal
+import datetime
 
 class Stock(object):
     ''' This class represents a common stock. '''
@@ -22,6 +23,9 @@ class Stock(object):
 
     def record_trade(self, trade):
         self.trades.append(trade)
+
+    def volume_weighted_price(self):
+        pass
 
 class PreferredStock(Stock):
     ''' This class represents a preferred stock. '''
