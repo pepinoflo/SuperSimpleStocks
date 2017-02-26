@@ -4,20 +4,19 @@ import unittest
 import decimal
 from supersimplestocks import *
 
-class TestStocks(unittest.TestCase):
-    ''' Unit tests for supersimplestocks module. '''
+class TestStock(unittest.TestCase):
+    ''' Unit tests for Stock class. '''
 
     def setUp(self):
         self.tea = Stock('TEA', 0, 100)
         self.pop = Stock('pop', 8, 100)
         self.ale = Stock('ale', 23, 100)
-        self.gin = PreferredStock('gin', 8, 100, 0.02)
         self.joe = Stock('joe', 13, 100)
         
-    def test_dividend_yield_raise_ValueError_when_market_price_is_zero(self):
+    def test_dividend_yield_raises_ValueError_when_market_price_is_zero(self):
         self.assertRaises(ValueError, self.tea.dividend_yield, 0)
 
-    def test_dividend_yield_raise_ValueError_when_market_price_is_negative(self):
+    def test_dividend_yield_raises_ValueError_when_market_price_is_negative(self):
         self.assertRaises(ValueError, self.tea.dividend_yield, -2)
 
     def test_dividend_yield_returns_expected_decimal(self):
