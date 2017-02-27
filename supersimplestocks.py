@@ -79,3 +79,34 @@ def all_shares_index(stocks):
     if num_stocks == 0:
         return decimal.Decimal(0)
     return mult_stocks_price ** decimal.Decimal((1/num_stocks))
+
+
+if __name__ == '__main__':
+    decimal.getcontext().prec = 6
+    stocks = {'TEA': Stock('TEA', 0, 100),
+              'POP': Stock('POP', 8, 100),
+              'ALE': Stock('ALE', 23, 60),
+              'GIN': PreferredStock('GIN', 8, 0.02, 100),
+              'JOE': Stock('JOE', 13, 250)
+             }
+    now = datetime.datetime.now()
+    stocks['TEA'].record_trade(Trade(now, 6, 'BUY', 24.12))
+    stocks['TEA'].record_trade(Trade(now, 4, 'BUY', 98.45))
+    stocks['POP'].record_trade(Trade(now, 12, 'SELL', 112.01))
+    stocks['POP'].record_trade(Trade(now, 2, 'BUY', 45))
+    stocks['POP'].record_trade(Trade(now, 32, 'SELL', 23.23))
+    stocks['ALE'].record_trade(Trade(now, 1, 'SELL', 134.20))
+    stocks['ALE'].record_trade(Trade(now, 18, 'SELL', 32.14))
+    stocks['GIN'].record_trade(Trade(now, 7, 'BUY', 86.31))
+    stocks['GIN'].record_trade(Trade(now, 22, 'SELL', 234))
+
+    print('========================================================')
+    print('  Stock     dividend yield     pe ratio     vwp  ')
+    print('   TEA        {}             {}            {}   '.format(stocks['TEA'].dividend_yield(35.21), stocks['TEA'].pe_ratio(35.21), stocks['TEA'].volume_weighted_price()))
+    print('   POP        {}          {}      {}   '.format(stocks['POP'].dividend_yield(12.30), stocks['POP'].pe_ratio(12.30), stocks['POP'].volume_weighted_price()))
+    print('   ALE        {}          {}      {}   '.format(stocks['ALE'].dividend_yield(137.93), stocks['ALE'].pe_ratio(137.93), stocks['ALE'].volume_weighted_price()))
+    print('   GIN        {}         {}      {}   '.format(stocks['GIN'].dividend_yield(85), stocks['GIN'].pe_ratio(85), stocks['GIN'].volume_weighted_price()))
+    print('   JOE        {}           {}    {}   '.format(stocks['JOE'].dividend_yield(1.01), stocks['JOE'].pe_ratio(1.01), stocks['JOE'].volume_weighted_price()))
+    print()
+    print('GBCE all shares index: {}'.format(all_shares_index(stocks.values())))
+    print('========================================================')
