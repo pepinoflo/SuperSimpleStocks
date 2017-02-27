@@ -4,12 +4,12 @@ Code assessment task for JP Morgan recruitment process.
 
 # Problem
 Provide working source code that will :
-    1.	For a given stock,
-        a. Given a market price as input, calculate the dividend yield.
-        b. Given a market price as input,  calculate the P/E Ratio.
-        c. Record a trade, with timestamp, quantity of shares, buy or sell indicator and trade price.
-        d. Calculate Volume Weighted Stock Price based on trades in past 15 minutes.
-    2.	Calculate the GBCE All Share Index using the geometric mean of prices for all stocks.
++ For a given stock,
+    - Given a market price as input, calculate the dividend yield.
+    - Given a market price as input,  calculate the P/E Ratio.
+    - Record a trade, with timestamp, quantity of shares, buy or sell indicator and trade price.
+    - Calculate Volume Weighted Stock Price based on trades in past 15 minutes.
++ Calculate the GBCE All Share Index using the geometric mean of prices for all stocks.
 
 # Requirements
 + The code has been tested on Python 2.7.10 and Python 3.6.0.
