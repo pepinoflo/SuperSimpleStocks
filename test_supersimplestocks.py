@@ -1,9 +1,12 @@
 ''' Unit tests for module supersimplestocks.py. '''
-
+import sys
 import unittest
-from unittest import mock
 import datetime
 import decimal
+if sys.version_info < (3, 3):
+    import mock
+else:
+    from unittest import mock
 import supersimplestocks
 
 SIXPLACES = decimal.Decimal('1.00000')

@@ -134,7 +134,8 @@ def all_shares_index(stocks):
             num_stocks += 1
     if num_stocks == 0:
         return decimal.Decimal(0)
-    return mult_stocks_price ** decimal.Decimal((1/num_stocks))
+    # We use 1.0 in the power to support Python 2 and 3
+    return mult_stocks_price ** decimal.Decimal((1.0/num_stocks))
 
 
 if __name__ == '__main__':
