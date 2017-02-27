@@ -58,3 +58,24 @@ class Trade(object):
             self.indicator = indicator
         else:
             raise ValueError("Found: {}. Expected indicator should be SELL or BUY.".format(indicator))
+
+def all_shares_index(stocks):
+    '''
+    Calculates the All Shares Index for a given list of stocks. If the list is empty, it will return 0. If there is one stock whose price is 0, this stock is not taken into account in the calculation.
+
+    :param list stocks: The list of stocks
+    :return: The all shares index
+    :rtype: Decimal
+    '''
+    if not stocks:
+        return decimal.Decimal(0)
+    mult_stocks_price = decimal.Decimal(1)
+    num_stocks = 0
+    for stock in stocks:
+        vwp = stock.volume_weighted_price()
+        if vwp != 0:
+            mult_stocks_price *= vwp
+            num_stocks += 1
+    if num_stocks == 0:
+        return decimal.Decimal(0)
+    return mult_stocks_price ** decimal.Decimal((1/num_stocks))

@@ -1,7 +1,7 @@
 ''' Unit tests for module supersimplestocks.py. '''
 
 import unittest
-import unittest.mock
+from unittest import mock
 import datetime
 import decimal
 import supersimplestocks
@@ -45,7 +45,7 @@ class TestStock(unittest.TestCase):
 
     def test_volume_weighted_price_returns_expected_value(self):
         # Here we patch datetime.now method in supersimplestocks module to input a fixed time instead
-        with unittest.mock.patch('supersimplestocks.datetime') as mock_date:
+        with mock.patch('supersimplestocks.datetime') as mock_date:
             mock_date.datetime.now.return_value = datetime.datetime(2017, 2, 26, 16, 30, 5, 392218)
             mock_date.timedelta.side_effect = lambda *args, **kw: datetime.timedelta(*args, **kw)
 
@@ -80,6 +80,30 @@ class TestTrade(unittest.TestCase):
     ''' Unit tests for Trade class. '''
     def test_init_raises_ValueError_when_indicator_not_valid(self):
         self.assertRaises(ValueError, supersimplestocks.Trade, datetime.datetime(2017, 2, 26, 16, 33, 2, 392218), 4, 'GIVE', 47.37)
+        
+class TestAllShareIndexMethod(unittest.TestCase):
+    ''' Unit tests for all_share_index method. '''
+    def setUp(self):
+        # Here we create four mock objects for stock in order to mock the volume_weighted_price method. We use the class Stock as the spec to create the mock.
+        self.stock1 = mock.create_autospec(supersimplestocks.Stock, spec_set=True, instance=True)
+        self.stock2 = mock.create_autospec(supersimplestocks.Stock, spec_set=True, instance=True)
+        self.stock3 = mock.create_autospec(supersimplestocks.Stock, spec_set=True, instance=True)
+        self.stock4 = mock.create_autospec(supersimplestocks.Stock, spec_set=True, instance=True)
+        self.stock1.volume_weighted_price.return_value = decimal.Decimal(24.16)
+        self.stock2.volume_weighted_price.return_value = decimal.Decimal(2.91)
+        self.stock3.volume_weighted_price.return_value = decimal.Decimal(0.24)
+        self.stock4.volume_weighted_price.return_value = decimal.Decimal(0)
+
+    def test_all_shares_index_returns_zero_when_empty_list_given(self):
+        self.assertEqual(decimal.Decimal(0), supersimplestocks.all_shares_index([]))
+
+    def test_all_shares_index_returns_zero_when_no_registered_trades(self):
+        self.assertEqual(decimal.Decimal(0), supersimplestocks.all_shares_index([self.stock4]))
+
+    def test_all_shares_index_returns_expected_value(self):
+        stocks = [self.stock1, self.stock2 ,self.stock3, self.stock4]
+        self.assertEqual(decimal.Decimal(2.56488).quantize(SIXPLACES), supersimplestocks.all_shares_index(stocks).quantize(SIXPLACES))
+
 
 if __name__ == '__main__':
     decimal.getcontext().prec = 7
