@@ -35,11 +35,14 @@ class TestStock(unittest.TestCase):
     def test_pe_ratio_raises_ValueError_when_market_price_is_negative(self):
         self.assertRaises(ValueError, self.tea.pe_ratio, -2)
 
+    def test_pe_ratio_returns_zero_when_dividend_is_zero(self):
+        self.assertEqual(decimal.Decimal(0), self.tea.pe_ratio(12).quantize(SIXPLACES))
+
     def test_pe_ratio_returns_expected_decimal(self):
         self.assertEqual(decimal.Decimal(0).quantize(SIXPLACES), self.tea.pe_ratio(16).quantize(SIXPLACES))
         self.assertEqual(decimal.Decimal('32').quantize(SIXPLACES), self.pop.pe_ratio(16).quantize(SIXPLACES))
 
-    ### Tests for pe_ratio method ###
+    ### Tests for volume_weighted_price method ###
     def test_volume_weighted_price_returns_zero_if_no_trades(self):
         self.assertEqual(0, self.tea.volume_weighted_price().quantize(SIXPLACES))
 

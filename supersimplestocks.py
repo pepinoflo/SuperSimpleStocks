@@ -30,12 +30,15 @@ class Stock(object):
 
     def pe_ratio(self, market_price):
         '''
-        Calculates the simplified Price-Earnings ratio. The dividend yield is used in the formula. If the market price is zero, it returns zero.
+        Calculates the simplified Price-Earnings ratio. The dividend yield is used in the formula. If the dividend yield is zero, it returns zero.
 
         :param float market_price: The market price
         :return: the Price-Earnings ratio
         :rtype: Decimal
+        :raises ValueError: If the market price is negative or zero.
         '''
+        if market_price <= 0:
+            raise ValueError("market price value is negative or equal to 0. Found {}".format(market_price))
         try:
             return decimal.Decimal(market_price) / self.dividend_yield(market_price)
         except ZeroDivisionError as e:
