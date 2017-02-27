@@ -25,7 +25,18 @@ class Stock(object):
         self.trades.append(trade)
 
     def volume_weighted_price(self):
-        pass
+        now = datetime.datetime.now()
+        delta_fifteen_mins = datetime.timedelta(0, 15 * 60)
+        total_trade_price = decimal.Decimal(0)
+        total_shares = decimal.Decimal(0)
+        for trade in self.trades:
+            if now - trade.timestamp <= delta_fifteen_mins:
+                total_trade_price += trade.price * trade.num_shares
+                total_shares += trade.num_shares
+        if total_shares == 0:
+            return 0
+        else:
+            return total_trade_price / total_shares
 
 class PreferredStock(Stock):
     ''' This class represents a preferred stock. '''
