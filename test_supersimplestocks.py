@@ -25,8 +25,8 @@ class TestStock(unittest.TestCase):
         self.assertRaises(ValueError, self.tea.dividend_yield, -2)
 
     def test_dividend_yield_returns_expected_decimal(self):
-        self.assertEqual(decimal.Decimal(0), self.tea.dividend_yield(16))
-        self.assertEqual(decimal.Decimal(0.5), self.pop.dividend_yield(16))
+        self.assertEqual(decimal.Decimal(0).quantize(SIXPLACES), self.tea.dividend_yield(16).quantize(SIXPLACES))
+        self.assertEqual(decimal.Decimal(0.5).quantize(SIXPLACES), self.pop.dividend_yield(16).quantize(SIXPLACES))
 
     ### Tests for pe_ratio method ###
     def test_pe_ratio_raises_ValueError_when_market_price_is_zero(self):
@@ -36,12 +36,12 @@ class TestStock(unittest.TestCase):
         self.assertRaises(ValueError, self.tea.pe_ratio, -2)
 
     def test_pe_ratio_returns_expected_decimal(self):
-        self.assertEqual(decimal.Decimal(0), self.tea.pe_ratio(16))
-        self.assertEqual(decimal.Decimal(32), self.pop.pe_ratio(16))
+        self.assertEqual(decimal.Decimal(0).quantize(SIXPLACES), self.tea.pe_ratio(16).quantize(SIXPLACES))
+        self.assertEqual(decimal.Decimal('32').quantize(SIXPLACES), self.pop.pe_ratio(16).quantize(SIXPLACES))
 
     ### Tests for pe_ratio method ###
     def test_volume_weighted_price_returns_zero_if_no_trades(self):
-        self.assertEqual(0, self.tea.volume_weighted_price())
+        self.assertEqual(0, self.tea.volume_weighted_price().quantize(SIXPLACES))
 
     def test_volume_weighted_price_returns_expected_value(self):
         # Here we patch datetime.now method in supersimplestocks module to input a fixed time instead
@@ -74,7 +74,7 @@ class TestPreferredStock(unittest.TestCase):
         self.assertRaises(ValueError, self.gin.dividend_yield, -2)
 
     def test_dividend_yield_returns_expected_decimal(self):
-        self.assertEqual(decimal.Decimal(0.125), self.gin.dividend_yield(16))
+        self.assertEqual(decimal.Decimal(0.125).quantize(SIXPLACES), self.gin.dividend_yield(16).quantize(SIXPLACES))
 
 class TestTrade(unittest.TestCase):
     ''' Unit tests for Trade class. '''
@@ -82,6 +82,6 @@ class TestTrade(unittest.TestCase):
         self.assertRaises(ValueError, supersimplestocks.Trade, datetime.datetime(2017, 2, 26, 16, 33, 2, 392218), 4, 'GIVE', 47.37)
 
 if __name__ == '__main__':
-    decimal.getcontext().prec = 6
+    decimal.getcontext().prec = 7
     unittest.main()
 

@@ -19,7 +19,7 @@ class Stock(object):
         try:
             return decimal.Decimal(market_price) / self.dividend_yield(market_price)
         except ZeroDivisionError as e:
-            return 0
+            return decimal.Decimal(0)
 
     def record_trade(self, trade):
         self.trades.append(trade)
@@ -34,7 +34,7 @@ class Stock(object):
                 total_trade_price += trade.price * trade.num_shares
                 total_shares += trade.num_shares
         if total_shares == 0:
-            return 0
+            return decimal.Decimal(0)
         else:
             return total_trade_price / total_shares
 
