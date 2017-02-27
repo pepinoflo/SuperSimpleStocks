@@ -5,26 +5,57 @@ class Stock(object):
     ''' This class represents a common stock. '''
 
     def __init__(self, symbol, last_dividend, par_value):
+        '''
+        :param str symbol: The symbol defining the stock
+        :param float last_dividend: The last dividend
+        :param int par_value: The par value
+        '''
         self.symbol = symbol
         self.last_dividend = decimal.Decimal(last_dividend)
         self.par_value = decimal.Decimal(par_value)
         self.trades = []
 
     def dividend_yield(self, market_price):
+        '''
+        Calculates the dividend yield
+
+        :param float market_price: The market price
+        :return: the dividend yield
+        :rtype: Decimal
+        :raises ValueError: If the market price is negative or zero.
+        '''
         if market_price <= 0:
             raise ValueError("market price value is negative or equal to 0. Found {}".format(market_price))
         return self.last_dividend / decimal.Decimal(market_price)
 
     def pe_ratio(self, market_price):
+        '''
+        Calculates the simplified Price-Earnings ratio. The dividend yield is used in the formula. If the market price is zero, it returns zero.
+
+        :param float market_price: The market price
+        :return: the Price-Earnings ratio
+        :rtype: Decimal
+        '''
         try:
             return decimal.Decimal(market_price) / self.dividend_yield(market_price)
         except ZeroDivisionError as e:
             return decimal.Decimal(0)
 
     def record_trade(self, trade):
+        '''
+        Records a trade for this stock.
+
+        :param Trade trade: The trade
+        '''
         self.trades.append(trade)
 
     def volume_weighted_price(self):
+        '''
+        Calculates the Volume Weighted Price for all the trades in the last 15 minutes. If this stock does not have any trade, the method returns zero.
+
+        :return: The Volume Weighted Price
+        :rtype: Decimal
+        '''
         now = datetime.datetime.now()
         delta_fifteen_mins = datetime.timedelta(0, 15 * 60)
         total_trade_price = decimal.Decimal(0)
@@ -41,16 +72,38 @@ class Stock(object):
 class PreferredStock(Stock):
     ''' This class represents a preferred stock. '''
     def __init__(self, symbol, last_dividend, par_value, fixed_dividend):
+        '''
+        :param str symbol: The symbol defining the stock
+        :param float last_dividend: The last dividend
+        :param int par_value: The par value
+        :param float fixed_dividend: The fixed dividend
+        '''
         super(PreferredStock, self).__init__(symbol, last_dividend, par_value)
         self.fixed_dividend = decimal.Decimal(fixed_dividend)
 
     def dividend_yield(self, market_price):
+        '''
+        Calculates the dividend yield
+
+        :param float market_price: The market price
+        :return: the dividend yield
+        :rtype: Decimal
+        :raises ValueError: If the market price is negative or zero.
+        '''
         if market_price <= 0:
             raise ValueError("market price value is negative or equal to 0. Found {}".format(market_price))
         return (self.fixed_dividend * self.par_value) / decimal.Decimal(market_price)
 
 class Trade(object):
+    ''' This class represents a Trade. '''
     def __init__(self, timestamp, num_shares, indicator, price):
+        '''
+        :param datetime timestamp: A timestamp of when the trade has been completed
+        :param int num_shares: The number of shares bought or sold
+        :param str indicator: SELL or BUY indicator
+        :param float price: The price
+        :raises ValueError: If the indicator is neither BUY or SELL
+        '''
         self.timestamp = timestamp
         self.num_shares = num_shares
         self.price = decimal.Decimal(price)
